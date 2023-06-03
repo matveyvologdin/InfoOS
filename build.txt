@@ -1,0 +1,13 @@
+Сборка ядра:
+cl.exe /GS- /c kernel.cpp
+link.exe /OUT:kernel.bin /BASE:0x10000 /FIXED /FILEALIGN:512 /MERGE:.rdata=.data /IGNORE:4254 /NODEFAULTLIB /ENTRY:startup /SUBSYSTEM:NATIVE kernel.obj
+
+dumpbin /headers kernel.bin
+
+Сборка загрузчика:
+cd /./oc
+yasm -f bin -o bootsect.bin bootsect.asm
+
+Запуск:
+cd /./program files/qemu
+qemu-system-i386 -fda c:/oc/bootsect.bin -fdb c:/users/volog/source/repos/Project6/Project6/kernel.bin
